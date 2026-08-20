@@ -16,9 +16,12 @@ Token needs `Account -> Cloudflare Pages -> Edit`, with the account added under
 Workers & Pages. The workflow reads the
 project name from the `CF_PROJECT` repo variable, so no code edit is needed.
 
-If the project's source type is **not** `direct-upload`, it is already wired to
-a repo: dashboard -> Workers & Pages -> project -> Settings -> Builds &
-deployments -> Disconnect, or the two will fight.
+If the project's source type is `github`/`gitlab`, Cloudflare is already
+building it from a repo on every push. This workflow would *also* deploy on
+every push — two deployments racing for the same project, last one wins.
+Pick one: either disconnect Git (dashboard -> Workers & Pages -> project ->
+Settings -> Builds & deployments -> Disconnect) and keep this workflow, or
+delete this workflow and let Cloudflare's own Git build do the work.
 
 ## Deploy
 
