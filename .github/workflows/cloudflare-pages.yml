@@ -14,6 +14,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Resolve project name
+        id: cfg
+        run: |
+          NAME="${{ vars.CF_PROJECT }}"
+          if [ -z "$NAME" ]; then
+            echo "::error::Repo variable CF_PROJECT is not set."
+            exit 1
+          fi
+          echo "project=$NAME" >> "$GITHUB_OUTPUT"
+          echo "Deploying to: $NAME"
+
       # Copy only site content into dist/ — never dotfiles, tokens, or CI config.
       - name: Stage site
         run: |
@@ -32,4 +43,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=habitar --branch=main
+          command: pages deploy dist --project-name=${{ steps.cfg.outputs.project }} --branch=main
