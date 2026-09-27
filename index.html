@@ -283,14 +283,28 @@
     }
 
     .edicao-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.9rem 3.4rem;
+      display: flex;
+      align-items: stretch;
+      gap: 0 3.4rem;
       /* light spine separating the two columns */
       background-image: linear-gradient(#e6e5e0, #e6e5e0);
       background-size: 1px 100%;
       background-position: center top;
       background-repeat: no-repeat;
+    }
+
+    .edicao-col {
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2.9rem;
+    }
+
+    /* when the right column has fewer cards than the left, center it
+       vertically instead of leaving it pinned to the top */
+    .edicao-col-right {
+      justify-content: center;
     }
 
     .edicao-card {
@@ -302,7 +316,7 @@
     }
 
     /* right column: mirror so the portrait sits on the outer right */
-    .edicao-card:nth-child(even) {
+    .edicao-col-right .edicao-card {
       flex-direction: row-reverse;
       text-align: right;
     }
@@ -345,12 +359,89 @@
       color: #666;
     }
 
+    /* shared mobile layout for every .edicao-grid (Nesta edição + the
+       previous-editions accordion): single column, no spine, no mirroring */
     @media (max-width: 600px) {
-      #nesta-edicao { padding-left: 1.4rem; padding-right: 1.4rem; }
-      /* single column, no spine; the base rule keeps the zigzag */
-      .edicao-grid { grid-template-columns: 1fr; gap: 2.2rem; background-image: none; }
+      .edicao-grid { flex-direction: column; gap: 2.2rem; background-image: none; }
+      .edicao-col { gap: 2.2rem; }
+      .edicao-col-right { justify-content: flex-start; }
+      .edicao-col-right .edicao-card { flex-direction: row; text-align: left; }
       .edicao-card .carica { width: 100px; height: 100px; }
       .card-title { font-size: 1rem; }
+      #nesta-edicao { padding-left: 1.4rem; padding-right: 1.4rem; }
+    }
+
+    /* --- Edições anteriores --- */
+    #edicoes-anteriores { max-width: 1000px; }
+
+    .edicao-accordion { border-top: 1px solid #e6e5e0; }
+
+    .edicao-accordion-item {
+      border-bottom: 1px solid #e6e5e0;
+    }
+
+    .edicao-accordion-item summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.4rem 0.2rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .edicao-accordion-item summary::-webkit-details-marker { display: none; }
+
+    .edicao-accordion-item summary .edicao-accordion-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .edicao-accordion-item summary .edicao-accordion-num {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #1a1a1a;
+    }
+
+    .edicao-accordion-item summary .edicao-accordion-date {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .edicao-accordion-item summary .edicao-accordion-icon {
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      color: #888;
+      transition: transform 0.25s ease, color 0.2s ease;
+    }
+
+    .edicao-accordion-item summary .edicao-accordion-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .edicao-accordion-item:hover summary .edicao-accordion-num,
+    .edicao-accordion-item:hover summary .edicao-accordion-icon { color: #1a1a1a; }
+
+    .edicao-accordion-item[open] summary .edicao-accordion-icon { transform: rotate(45deg); }
+
+    .edicao-accordion-body {
+      padding: 0.4rem 0.2rem 2.4rem;
+    }
+
+    .edicao-accordion-body .edicao-grid {
+      gap: 2.4rem 3.4rem;
+    }
+
+    @media (max-width: 600px) {
+      #edicoes-anteriores { padding-left: 1.4rem; padding-right: 1.4rem; }
     }
 
     /* --- Ficha técnica --- */
@@ -420,7 +511,8 @@
     /* --- Pontos de recolha --- */
     .pontos-lead { margin-bottom: 2.2rem; }
 
-    .pontos-grid {
+    .pontos-grid,
+    .contactos-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 2.4rem 2.8rem;
@@ -464,12 +556,6 @@
 
     /* --- Contactos --- */
     #contactos { max-width: 1000px; }
-
-    .contactos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2.4rem 2.8rem;
-    }
 
     .contacto-item {
       display: flex;
@@ -656,6 +742,7 @@
     <a href="#" class="brand">HABITAR</a>
     <nav class="site-nav">
       <a href="#nesta-edicao">Nesta edição</a>
+      <a href="#edicoes-anteriores">Edições anteriores</a>
       <a href="#pontos-de-recolha">Pontos de recolha</a>
       <a href="#contactos">Contactos</a>
       <a href="#ficha-tecnica">Ficha técnica</a>
@@ -668,7 +755,7 @@
       <img src="logo.png" alt="Habitar — um gesto de resistência">
     </div>
     <a class="scroll-cue" href="#nesta-edicao">
-      <span class="scroll-label">Número 01</span>
+      <span class="scroll-label">Número 02</span>
       <span class="scroll-arrow" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8.5l7 7 7-7"/></svg>
       </span>
@@ -679,80 +766,190 @@
 
   <section id="nesta-edicao" class="section">
     <h2>Nesta edição</h2>
-    <p class="edicao-meta">Nº 1 · Junho 2026</p>
+    <p class="edicao-meta">Nº 2 · Outubro 2026</p>
 
     <div class="edicao-grid">
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Vania.png" alt="Vânia Leite"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">As políticas urbanas podem melhorar a democracia local?</h3>
-          <p class="card-author">Vânia Leite</p>
-        </div>
-      </article>
+      <div class="edicao-col edicao-col-left">
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Lacerda.png" alt="Fernando Lacerda"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Os políticos são todos iguais?</h3>
+            <p class="card-author">Fernando Lacerda</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Diana.png" alt="Diana Gomes"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">Quem cuida da terra em Gaia, cuida do território</h3>
-          <p class="card-author">Diana Gomes</p>
-        </div>
-      </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Tiago Matos.png" alt="Tiago Matos"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Bem-vindos ao vosso bairro. Agora pertence a outro senhor.</h3>
+            <p class="card-author">Tiago Matos</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Ana.png" alt="Ana Castro"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">Eu sou deficiente. E tu, és capacitista?</h3>
-          <p class="card-author">Ana Castro</p>
-        </div>
-      </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Leonardo.png" alt="Leonardo Faria"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Na base da comunidade, a verdade</h3>
+            <p class="card-author">Leonardo Faria</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Lacerda.png" alt="Fernando Lacerda"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">Sim, é de política que falamos!</h3>
-          <p class="card-author">Fernando Lacerda</p>
-        </div>
-      </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Vania.png" alt="Vânia Leite"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">O sermão do veganismo</h3>
+            <p class="card-author">Vânia Leite</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Helena.png" alt="Helena Durães"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">Professora, posso ir buscar o casaco?</h3>
-          <p class="card-author">Helena Durães</p>
-        </div>
-      </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Antonio.png" alt="António José Santos"></div>
+          <div class="card-content">
+            <p class="card-section">Rubrica</p>
+            <h3 class="card-title">O Ouro Popular de Vila Nova de Gaia no século XIX</h3>
+            <p class="card-author">António José Santos</p>
+          </div>
+        </article>
+      </div>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">NATO: Um futuro muito mau? E o passado?</h3>
-          <p class="card-author">Renato Soeiro</p>
-        </div>
-      </article>
+      <div class="edicao-col edicao-col-right">
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Um jardim com dois coretos</h3>
+            <p class="card-author">Renato Soeiro</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Ismael.png" alt="Ismael Calliano"></div>
-        <div class="card-content">
-          <p class="card-section">Poesia</p>
-          <h3 class="card-title">Frágil poesia inédita</h3>
-          <p class="card-author">Ismael Calliano</p>
-        </div>
-      </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/MJ Araujo.png" alt="Maria José Araújo"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Brincar com as palavras, sonhar a liberdade</h3>
+            <p class="card-author">Maria José Araújo</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Antonio.png" alt="António José Santos"></div>
-        <div class="card-content">
-          <p class="card-section">Rubrica</p>
-          <h3 class="card-title">Costumes de um povo!</h3>
-          <p class="card-author">António José Santos</p>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Ruth Sampaio.png" alt="Ruth Sampaio"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">O que tem o Estado Social a ver com a Saúde mental?</h3>
+            <p class="card-author">Ruth Sampaio</p>
+          </div>
+        </article>
+
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Ismael.png" alt="Ismael Calliano"></div>
+          <div class="card-content">
+            <p class="card-section">Poesia</p>
+            <h3 class="card-title">Frágil poesia inédita</h3>
+            <p class="card-author">Ismael Calliano</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="edicoes-anteriores" class="section">
+    <h2>Edições anteriores</h2>
+
+    <div class="edicao-accordion">
+      <details class="edicao-accordion-item">
+        <summary>
+          <span class="edicao-accordion-titles">
+            <span class="edicao-accordion-num">Número 01</span>
+            <span class="edicao-accordion-date">Junho 2026</span>
+          </span>
+          <span class="edicao-accordion-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <div class="edicao-accordion-body">
+          <div class="edicao-grid">
+            <div class="edicao-col edicao-col-left">
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Vania.png" alt="Vânia Leite"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">As políticas urbanas podem melhorar a democracia local?</h3>
+                  <p class="card-author">Vânia Leite</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Ana.png" alt="Ana Castro"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Eu sou deficiente. E tu, és capacitista?</h3>
+                  <p class="card-author">Ana Castro</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Helena.png" alt="Helena Durães"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Professora, posso ir buscar o casaco?</h3>
+                  <p class="card-author">Helena Durães</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Ismael.png" alt="Ismael Calliano"></div>
+                <div class="card-content">
+                  <p class="card-section">Poesia</p>
+                  <h3 class="card-title">Frágil poesia inédita</h3>
+                  <p class="card-author">Ismael Calliano</p>
+                </div>
+              </article>
+            </div>
+
+            <div class="edicao-col edicao-col-right">
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Diana.png" alt="Diana Gomes"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Quem cuida da terra em Gaia, cuida do território</h3>
+                  <p class="card-author">Diana Gomes</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Lacerda.png" alt="Fernando Lacerda"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Sim, é de política que falamos!</h3>
+                  <p class="card-author">Fernando Lacerda</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">NATO: Um futuro muito mau? E o passado?</h3>
+                  <p class="card-author">Renato Soeiro</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Antonio.png" alt="António José Santos"></div>
+                <div class="card-content">
+                  <p class="card-section">Rubrica</p>
+                  <h3 class="card-title">Costumes de um povo!</h3>
+                  <p class="card-author">António José Santos</p>
+                </div>
+              </article>
+            </div>
+          </div>
         </div>
-      </article>
+      </details>
     </div>
   </section>
 
