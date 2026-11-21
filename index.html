@@ -735,6 +735,68 @@
       width: 100%;
       height: auto;
     }
+
+    /* --- Humor e jogo (nesta edição) --- */
+    .edicao-extras {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.6rem 3.4rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e6e5e0;
+    }
+    .extra { flex: 1 1 260px; }
+    .extra-label {
+      margin-bottom: 0.7rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #b0b0b0;
+    }
+    .extra ul { list-style: none; }
+    .extra li {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #1a1a1a;
+    }
+    .extra-fmt { font-weight: 400; font-style: italic; font-size: 0.88rem; color: #777; font-family: inherit; }
+
+    /* --- Ponto sem logo --- */
+    .ponto-logo-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 900;
+      font-size: 2.4rem;
+      color: #c9c5bd;
+    }
+
+    /* --- Próximo evento / fotos --- */
+    .evento-proximo { font-size: 1.05rem; line-height: 1.6; color: #444; }
+    .evento-sep { border: 0; border-top: 1px solid #e6e5e0; margin: 3rem 0; }
+    .evento-fotos { flex: 1 1 100%; margin-top: 0.6rem; }
+    .evento-fotos summary {
+      cursor: pointer;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #777;
+    }
+    .evento-fotos summary:hover { color: #1a1a1a; }
+    .evento-fotos-grid { column-count: 3; column-gap: 0.7rem; margin-top: 1.2rem; }
+    .evento-fotos-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 0.7rem;
+      border-radius: 4px;
+      break-inside: avoid;
+    }
+    @media (max-width: 600px) { .evento-fotos-grid { column-count: 2; } }
   </style>
 </head>
 <body>
@@ -849,11 +911,16 @@
           <div class="card-content">
             <p class="card-section">Poesia</p>
             <h3 class="card-title">Frágil poesia inédita</h3>
-            <p class="card-author">Ismael Calliano</p>
+            <p class="card-author">Ismael Calliano, Lunika Ozana, Antero Afonso</p>
           </div>
         </article>
       </div>
     </div>
+  
+        <div class="edicao-extras">
+          <div class="extra"><p class="extra-label">Humor</p><ul><li>Lobisomem de Avintes recorda Adriano Correia de Oliveira</li><li>Solidariedade internacional Lattente <span class="extra-fmt">(banda desenhada)</span></li><li>Café Habitar <span class="extra-fmt">(cartoon)</span></li></ul></div>
+          <div class="extra"><p class="extra-label">Jogo</p><ul><li>Cercas políticas</li></ul></div>
+        </div>
   </section>
 
   <section id="edicoes-anteriores" class="section">
@@ -905,7 +972,7 @@
                 <div class="card-content">
                   <p class="card-section">Poesia</p>
                   <h3 class="card-title">Frágil poesia inédita</h3>
-                  <p class="card-author">Ismael Calliano</p>
+                  <p class="card-author">Ismael Calliano, Hugo Araújo, Rui de Noronha Ozorio</p>
                 </div>
               </article>
             </div>
@@ -948,6 +1015,11 @@
               </article>
             </div>
           </div>
+        
+        <div class="edicao-extras">
+          <div class="extra"><p class="extra-label">Humor</p><ul><li>Entrevista a Rei Ramiro</li><li>Voz do Povo</li><li>Horóscopo de Freguesias</li></ul></div>
+          <div class="extra"><p class="extra-label">Jogo</p><ul><li>Palavras-cruzadas anárquicas</li></ul></div>
+        </div>
         </div>
       </details>
     </div>
@@ -993,7 +1065,7 @@
         <div class="ponto-logo"><img src="dushca-ig-pfp.jpg" alt="Dushca"></div>
         <div class="ponto-info">
           <h3 class="ponto-name">Dushca</h3>
-          <p class="ponto-place">R. Clube Caçadores 207<br>Vila Nova de Gaia</p>
+          <p class="ponto-place">R. Clube dos Caçadores 207<br>Vila Nova de Gaia</p>
         </div>
       </article>
 
@@ -1009,7 +1081,15 @@
         <div class="ponto-logo"><img src="biblioteca-municipal-gaia.png" alt="Biblioteca Municipal de Gaia"></div>
         <div class="ponto-info">
           <h3 class="ponto-name">Biblioteca Municipal de Gaia</h3>
-          <p class="ponto-place">R. de Angola<br>Vila Nova de Gaia</p>
+          <p class="ponto-place">R. de Angola<br>Vila Nova de Gaia<br>Pólos de Leitura de Afurada, Sandim e Avintes</p>
+        </div>
+      </article>
+
+      <article class="ponto-card">
+        <div class="ponto-logo ponto-logo-placeholder" aria-hidden="true"><span>C</span></div>
+        <div class="ponto-info">
+          <h3 class="ponto-name">Contratempo Livraria Multimedia</h3>
+          <p class="ponto-place">R. Barão do Corvo 514<br>Vila Nova de Gaia</p>
         </div>
       </article>
     </div>
@@ -1021,6 +1101,14 @@
       <div class="contacto-item">
         <p class="contacto-label">Editorial</p>
         <p class="contacto-value"><a href="mailto:editorial@jornalhabitar.pt">editorial@jornalhabitar.pt</a></p>
+      </div>
+      <div class="contacto-item">
+        <p class="contacto-label">Humor</p>
+        <p class="contacto-value"><a href="mailto:humor@jornalhabitar.pt">humor@jornalhabitar.pt</a></p>
+      </div>
+      <div class="contacto-item">
+        <p class="contacto-label">Poesia</p>
+        <p class="contacto-value"><a href="mailto:poesia@jornalhabitar.pt">poesia@jornalhabitar.pt</a></p>
       </div>
     </div>
   </section>
@@ -1109,11 +1197,51 @@
 
     <div class="eventos-block">
       <p class="eventos-subtitle">Próximos</p>
-      <p class="eventos-empty">Sem eventos agendados de momento. Volta em breve.</p>
+      <p class="evento-proximo"><strong>Número 3</strong> · previsto para dezembro de 2026.<br>Data e local da apresentação a anunciar em breve.</p>
     </div>
 
     <div class="eventos-block">
       <p class="eventos-subtitle">Passados</p>
+
+      <article class="evento">
+        <div class="evento-poster">
+          <img class="zoomable" src="eventos/convite-02.jpg" alt="Convite para a apresentação do número 2 do Habitar">
+        </div>
+        <div class="evento-meta">
+          <p class="evento-kicker">Apresentação do número 2</p>
+          <h3 class="evento-name">Habitar nº 2 em Gulpilhares</h3>
+          <p class="evento-tagline">Às 16h, concerto e apresentação do álbum «Ecos da Palavra», pelo Coro de Câmara da EPM – Gondomar.</p>
+          <p class="evento-when">18 de outubro de 2026 · 15h30</p>
+          <p class="evento-where">Auditório de Gulpilhares · Vila Nova de Gaia</p>
+        </div>
+        <details class="evento-fotos">
+          <summary>Ver as fotos (19)</summary>
+          <div class="evento-fotos-grid">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-01.jpg" data-full="eventos/apresentacao-2/foto-01.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-02.jpg" data-full="eventos/apresentacao-2/foto-02.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-03.jpg" data-full="eventos/apresentacao-2/foto-03.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-04.jpg" data-full="eventos/apresentacao-2/foto-04.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-05.jpg" data-full="eventos/apresentacao-2/foto-05.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-06.jpg" data-full="eventos/apresentacao-2/foto-06.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-07.jpg" data-full="eventos/apresentacao-2/foto-07.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-08.jpg" data-full="eventos/apresentacao-2/foto-08.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-09.jpg" data-full="eventos/apresentacao-2/foto-09.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-10.jpg" data-full="eventos/apresentacao-2/foto-10.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-11.jpg" data-full="eventos/apresentacao-2/foto-11.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-12.jpg" data-full="eventos/apresentacao-2/foto-12.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-13.jpg" data-full="eventos/apresentacao-2/foto-13.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-14.jpg" data-full="eventos/apresentacao-2/foto-14.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-15.jpg" data-full="eventos/apresentacao-2/foto-15.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-16.jpg" data-full="eventos/apresentacao-2/foto-16.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-17.jpg" data-full="eventos/apresentacao-2/foto-17.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-18.jpg" data-full="eventos/apresentacao-2/foto-18.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-19.jpg" data-full="eventos/apresentacao-2/foto-19.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+          </div>
+        </details>
+      </article>
+
+      <hr class="evento-sep">
+
       <article class="evento">
         <div class="evento-poster">
           <img class="zoomable" src="eventos/lancamento.jpg" alt="Cartaz do lançamento do Habitar">
@@ -1196,7 +1324,7 @@
 
       document.querySelectorAll('.zoomable').forEach(function (img) {
         img.addEventListener('click', function () {
-          open(img.currentSrc || img.src, img.alt);
+          open(img.dataset.full || img.currentSrc || img.src, img.alt);
         });
       });
 
