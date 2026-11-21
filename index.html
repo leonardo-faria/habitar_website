@@ -283,28 +283,15 @@
     }
 
     .edicao-grid {
-      display: flex;
-      align-items: stretch;
-      gap: 0 3.4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 2.9rem 3.4rem;
       /* light spine separating the two columns */
       background-image: linear-gradient(#e6e5e0, #e6e5e0);
       background-size: 1px 100%;
       background-position: center top;
       background-repeat: no-repeat;
-    }
-
-    .edicao-col {
-      flex: 1 1 0;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 2.9rem;
-    }
-
-    /* when the right column has fewer cards than the left, center it
-       vertically instead of leaving it pinned to the top */
-    .edicao-col-right {
-      justify-content: center;
     }
 
     .edicao-card {
@@ -315,8 +302,8 @@
       text-align: left;
     }
 
-    /* right column: mirror so the portrait sits on the outer right */
-    .edicao-col-right .edicao-card {
+    /* right column (even cards, in reading order): mirror so the portrait sits on the outer right */
+    .edicao-card:nth-child(even) {
       flex-direction: row-reverse;
       text-align: right;
     }
@@ -362,10 +349,8 @@
     /* shared mobile layout for every .edicao-grid (Nesta edição + the
        previous-editions accordion): single column, no spine, no mirroring */
     @media (max-width: 600px) {
-      .edicao-grid { flex-direction: column; gap: 2.2rem; background-image: none; }
-      .edicao-col { gap: 2.2rem; }
-      .edicao-col-right { justify-content: flex-start; }
-      .edicao-col-right .edicao-card { flex-direction: row; text-align: left; }
+      .edicao-grid { grid-template-columns: 1fr; gap: 2.2rem; background-image: none; }
+      .edicao-card:nth-child(even) { flex-direction: row; text-align: left; }
       .edicao-card .carica { width: 100px; height: 100px; }
       .card-title { font-size: 1rem; }
       #nesta-edicao { padding-left: 1.4rem; padding-right: 1.4rem; }
@@ -861,63 +846,14 @@
     <p class="edicao-meta">Nº 2 · Outubro 2026</p>
 
     <div class="edicao-grid">
-      <div class="edicao-col edicao-col-left">
         <article class="edicao-card">
-          <div class="carica"><img src="caricas/Lacerda.png" alt="Fernando Lacerda"></div>
+          <div class="carica carica-simbolo"><img src="simbolos/falacias.png" alt="Desmonta-falácias"></div>
           <div class="card-content">
-            <p class="card-section">Opinião</p>
-            <h3 class="card-title">Os políticos são todos iguais?</h3>
-            <p class="card-author">Fernando Lacerda</p>
-          </div>
-        </article>
-
-        <article class="edicao-card">
-          <div class="carica"><img src="caricas/Tiago Matos.png" alt="Tiago Matos"></div>
-          <div class="card-content">
-            <p class="card-section">Opinião</p>
-            <h3 class="card-title">Bem-vindos ao vosso bairro. Agora pertence a outro senhor.</h3>
-            <p class="card-author">Tiago Matos</p>
-          </div>
-        </article>
-
-        <article class="edicao-card">
-          <div class="carica"><img src="caricas/Leonardo.png" alt="Leonardo Faria"></div>
-          <div class="card-content">
-            <p class="card-section">Opinião</p>
-            <h3 class="card-title">Na base da comunidade, a verdade</h3>
-            <p class="card-author">Leonardo Faria</p>
-          </div>
-        </article>
-
-        <article class="edicao-card">
-          <div class="carica"><img src="caricas/Vania.png" alt="Vânia Leite"></div>
-          <div class="card-content">
-            <p class="card-section">Opinião</p>
-            <h3 class="card-title">O sermão do veganismo</h3>
+            <p class="card-section">Desmonta-falácias</p>
+            <h3 class="card-title">“O Estado tem de gerir as contas como uma família: não pode gastar mais do que ganha.”</h3>
             <p class="card-author">Vânia Leite</p>
           </div>
         </article>
-
-        <article class="edicao-card">
-          <div class="carica"><img src="caricas/Antonio.png" alt="António José Santos"></div>
-          <div class="card-content">
-            <p class="card-section">Rubrica</p>
-            <h3 class="card-title">O Ouro Popular de Vila Nova de Gaia no século XIX</h3>
-            <p class="card-author">António José Santos</p>
-          </div>
-        </article>
-      </div>
-
-      <div class="edicao-col edicao-col-right">
-        <article class="edicao-card">
-          <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
-          <div class="card-content">
-            <p class="card-section">Opinião</p>
-            <h3 class="card-title">A Inteligência Artificial e Vila Nova de Gaia: Uma experiência concreta</h3>
-            <p class="card-author">Renato Soeiro</p>
-          </div>
-        </article>
-
         <article class="edicao-card">
           <div class="carica"><img src="caricas/MJ Araujo.png" alt="Maria José Araújo"></div>
           <div class="card-content">
@@ -926,7 +862,22 @@
             <p class="card-author">Maria José Araújo</p>
           </div>
         </article>
-
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Tiago Matos.png" alt="Tiago Matos"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Bem-vindos ao vosso bairro. Agora pertence a outro senhor.</h3>
+            <p class="card-author">Tiago Matos</p>
+          </div>
+        </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">A Inteligência Artificial e Vila Nova de Gaia: Uma experiência concreta</h3>
+            <p class="card-author">Renato Soeiro</p>
+          </div>
+        </article>
         <article class="edicao-card">
           <div class="carica"><img src="caricas/Ruth Sampaio.png" alt="Ruth Sampaio"></div>
           <div class="card-content">
@@ -935,13 +886,28 @@
             <p class="card-author">Ruth Sampaio</p>
           </div>
         </article>
-
         <article class="edicao-card">
-          <div class="carica carica-simbolo"><img src="simbolos/falacias.png" alt="Desmonta-falácias"></div>
+          <div class="carica"><img src="caricas/Leonardo.png" alt="Leonardo Faria"></div>
           <div class="card-content">
-            <p class="card-section">Desmonta-falácias</p>
-            <h3 class="card-title">“O Estado tem de gerir as contas como uma família: não pode gastar mais do que ganha.”</h3>
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Na base da comunidade, a verdade</h3>
+            <p class="card-author">Leonardo Faria</p>
+          </div>
+        </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Vania.png" alt="Vânia Leite"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">O sermão do veganismo</h3>
             <p class="card-author">Vânia Leite</p>
+          </div>
+        </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Lacerda.png" alt="Fernando Lacerda"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Os políticos são todos iguais?</h3>
+            <p class="card-author">Fernando Lacerda</p>
           </div>
         </article>
         <article class="edicao-card">
@@ -952,8 +918,15 @@
             <p class="card-author">Ismael Calliano, Lunika Ozana, Antero Afonso</p>
           </div>
         </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Antonio.png" alt="António José Santos"></div>
+          <div class="card-content">
+            <p class="card-section">Rubrica</p>
+            <h3 class="card-title">O Ouro Popular de Vila Nova de Gaia no século XIX</h3>
+            <p class="card-author">António José Santos</p>
+          </div>
+        </article>
       </div>
-    </div>
   
         <div class="edicao-extras">
           <div class="extra"><p class="extra-label">Humor</p><ul><li>Lobisomem de Avintes recorda Adriano Correia de Oliveira</li><li>Solidariedade internacional Lattente <span class="extra-fmt">(banda desenhada)</span></li><li>Café Habitar <span class="extra-fmt">(cartoon)</span></li></ul></div>
@@ -1011,35 +984,7 @@
         </summary>
         <div class="edicao-accordion-body">
           <div class="edicao-grid">
-            <div class="edicao-col edicao-col-left">
-              <article class="edicao-card">
-                <div class="carica"><img src="caricas/Vania.png" alt="Vânia Leite"></div>
-                <div class="card-content">
-                  <p class="card-section">Opinião</p>
-                  <h3 class="card-title">As políticas urbanas podem melhorar a democracia local?</h3>
-                  <p class="card-author">Vânia Leite</p>
-                </div>
-              </article>
-
-              <article class="edicao-card">
-                <div class="carica"><img src="caricas/Ana.png" alt="Ana Castro"></div>
-                <div class="card-content">
-                  <p class="card-section">Opinião</p>
-                  <h3 class="card-title">Eu sou deficiente. E tu, és capacitista?</h3>
-                  <p class="card-author">Ana Castro</p>
-                </div>
-              </article>
-
-              <article class="edicao-card">
-                <div class="carica"><img src="caricas/Helena.png" alt="Helena Durães"></div>
-                <div class="card-content">
-                  <p class="card-section">Opinião</p>
-                  <h3 class="card-title">Professora, posso ir buscar o casaco?</h3>
-                  <p class="card-author">Helena Durães</p>
-                </div>
-              </article>
-
-              <article class="edicao-card">
+        <article class="edicao-card">
           <div class="carica"><img src="reportagem/table-jam.png" alt="Table Jam, ilustração do artigo"></div>
           <div class="card-content">
             <p class="card-section">Investigação e reportagem</p>
@@ -1048,44 +993,6 @@
           </div>
         </article>
         <article class="edicao-card">
-                <div class="carica carica-simbolo"><img src="simbolos/poesia.png" alt="Poesia"></div>
-                <div class="card-content">
-                  <p class="card-section">Poesia</p>
-                  <h3 class="card-title">Frágil poesia inédita</h3>
-                  <p class="card-author">Ismael Calliano, Hugo Araújo, Rui de Noronha Ozorio</p>
-                </div>
-              </article>
-            </div>
-
-            <div class="edicao-col edicao-col-right">
-              <article class="edicao-card">
-                <div class="carica"><img src="caricas/Diana.png" alt="Diana Gomes"></div>
-                <div class="card-content">
-                  <p class="card-section">Opinião</p>
-                  <h3 class="card-title">Quem cuida da terra em Gaia, cuida do território</h3>
-                  <p class="card-author">Diana Gomes</p>
-                </div>
-              </article>
-
-              <article class="edicao-card">
-                <div class="carica"><img src="caricas/Lacerda.png" alt="Fernando Lacerda"></div>
-                <div class="card-content">
-                  <p class="card-section">Opinião</p>
-                  <h3 class="card-title">Sim, é de política que falamos!</h3>
-                  <p class="card-author">Fernando Lacerda</p>
-                </div>
-              </article>
-
-              <article class="edicao-card">
-                <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
-                <div class="card-content">
-                  <p class="card-section">Opinião</p>
-                  <h3 class="card-title">NATO: Um futuro muito mau?<br>E o passado?</h3>
-                  <p class="card-author">Renato Soeiro</p>
-                </div>
-              </article>
-
-              <article class="edicao-card">
           <div class="carica carica-simbolo"><img src="simbolos/falacias.png" alt="Desmonta-falácias"></div>
           <div class="card-content">
             <p class="card-section">Desmonta-falácias</p>
@@ -1094,6 +1001,62 @@
           </div>
         </article>
         <article class="edicao-card">
+                <div class="carica"><img src="caricas/Vania.png" alt="Vânia Leite"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">As políticas urbanas podem melhorar a democracia local?</h3>
+                  <p class="card-author">Vânia Leite</p>
+                </div>
+              </article>
+        <article class="edicao-card">
+                <div class="carica"><img src="caricas/Diana.png" alt="Diana Gomes"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Quem cuida da terra em Gaia, cuida do território</h3>
+                  <p class="card-author">Diana Gomes</p>
+                </div>
+              </article>
+        <article class="edicao-card">
+                <div class="carica"><img src="caricas/Ana.png" alt="Ana Castro"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Eu sou deficiente. E tu, és capacitista?</h3>
+                  <p class="card-author">Ana Castro</p>
+                </div>
+              </article>
+        <article class="edicao-card">
+                <div class="carica"><img src="caricas/Lacerda.png" alt="Fernando Lacerda"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Sim, é de política que falamos!</h3>
+                  <p class="card-author">Fernando Lacerda</p>
+                </div>
+              </article>
+        <article class="edicao-card">
+                <div class="carica"><img src="caricas/Helena.png" alt="Helena Durães"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Professora, posso ir buscar o casaco?</h3>
+                  <p class="card-author">Helena Durães</p>
+                </div>
+              </article>
+        <article class="edicao-card">
+                <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">NATO: Um futuro muito mau?<br>E o passado?</h3>
+                  <p class="card-author">Renato Soeiro</p>
+                </div>
+              </article>
+        <article class="edicao-card">
+                <div class="carica carica-simbolo"><img src="simbolos/poesia.png" alt="Poesia"></div>
+                <div class="card-content">
+                  <p class="card-section">Poesia</p>
+                  <h3 class="card-title">Frágil poesia inédita</h3>
+                  <p class="card-author">Ismael Calliano, Hugo Araújo, Rui de Noronha Ozorio</p>
+                </div>
+              </article>
+        <article class="edicao-card">
                 <div class="carica"><img src="caricas/Antonio.png" alt="António José Santos"></div>
                 <div class="card-content">
                   <p class="card-section">Rubrica</p>
@@ -1101,8 +1064,7 @@
                   <p class="card-author">António José Santos</p>
                 </div>
               </article>
-            </div>
-          </div>
+      </div>
         
         <div class="edicao-extras">
           <div class="extra"><p class="extra-label">Humor</p><ul><li>Entrevista a Rei Ramiro</li><li>Voz do Povo</li><li>Horóscopo de Freguesias</li></ul></div>
