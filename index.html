@@ -283,14 +283,28 @@
     }
 
     .edicao-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.9rem 3.4rem;
+      display: flex;
+      align-items: stretch;
+      gap: 0 3.4rem;
       /* light spine separating the two columns */
       background-image: linear-gradient(#e6e5e0, #e6e5e0);
       background-size: 1px 100%;
       background-position: center top;
       background-repeat: no-repeat;
+    }
+
+    .edicao-col {
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2.9rem;
+    }
+
+    /* when the right column has fewer cards than the left, center it
+       vertically instead of leaving it pinned to the top */
+    .edicao-col-right {
+      justify-content: center;
     }
 
     .edicao-card {
@@ -302,7 +316,7 @@
     }
 
     /* right column: mirror so the portrait sits on the outer right */
-    .edicao-card:nth-child(even) {
+    .edicao-col-right .edicao-card {
       flex-direction: row-reverse;
       text-align: right;
     }
@@ -345,12 +359,89 @@
       color: #666;
     }
 
+    /* shared mobile layout for every .edicao-grid (Nesta edição + the
+       previous-editions accordion): single column, no spine, no mirroring */
     @media (max-width: 600px) {
-      #nesta-edicao { padding-left: 1.4rem; padding-right: 1.4rem; }
-      /* single column, no spine; the base rule keeps the zigzag */
-      .edicao-grid { grid-template-columns: 1fr; gap: 2.2rem; background-image: none; }
+      .edicao-grid { flex-direction: column; gap: 2.2rem; background-image: none; }
+      .edicao-col { gap: 2.2rem; }
+      .edicao-col-right { justify-content: flex-start; }
+      .edicao-col-right .edicao-card { flex-direction: row; text-align: left; }
       .edicao-card .carica { width: 100px; height: 100px; }
       .card-title { font-size: 1rem; }
+      #nesta-edicao { padding-left: 1.4rem; padding-right: 1.4rem; }
+    }
+
+    /* --- Edições anteriores --- */
+    #edicoes-anteriores { max-width: 1000px; }
+
+    .edicao-accordion { border-top: 1px solid #e6e5e0; }
+
+    .edicao-accordion-item {
+      border-bottom: 1px solid #e6e5e0;
+    }
+
+    .edicao-accordion-item summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.4rem 0.2rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .edicao-accordion-item summary::-webkit-details-marker { display: none; }
+
+    .edicao-accordion-item summary .edicao-accordion-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .edicao-accordion-item summary .edicao-accordion-num {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #1a1a1a;
+    }
+
+    .edicao-accordion-item summary .edicao-accordion-date {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .edicao-accordion-item summary .edicao-accordion-icon {
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      color: #888;
+      transition: transform 0.25s ease, color 0.2s ease;
+    }
+
+    .edicao-accordion-item summary .edicao-accordion-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .edicao-accordion-item:hover summary .edicao-accordion-num,
+    .edicao-accordion-item:hover summary .edicao-accordion-icon { color: #1a1a1a; }
+
+    .edicao-accordion-item[open] summary .edicao-accordion-icon { transform: rotate(45deg); }
+
+    .edicao-accordion-body {
+      padding: 0.4rem 0.2rem 2.4rem;
+    }
+
+    .edicao-accordion-body .edicao-grid {
+      gap: 2.4rem 3.4rem;
+    }
+
+    @media (max-width: 600px) {
+      #edicoes-anteriores { padding-left: 1.4rem; padding-right: 1.4rem; }
     }
 
     /* --- Ficha técnica --- */
@@ -420,7 +511,8 @@
     /* --- Pontos de recolha --- */
     .pontos-lead { margin-bottom: 2.2rem; }
 
-    .pontos-grid {
+    .pontos-grid,
+    .contactos-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 2.4rem 2.8rem;
@@ -464,12 +556,6 @@
 
     /* --- Contactos --- */
     #contactos { max-width: 1000px; }
-
-    .contactos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2.4rem 2.8rem;
-    }
 
     .contacto-item {
       display: flex;
@@ -649,6 +735,98 @@
       width: 100%;
       height: auto;
     }
+
+    /* --- Humor e jogo (nesta edição) --- */
+    .edicao-extras {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1.6rem 3.4rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e6e5e0;
+    }
+    .extra:last-child { text-align: right; }
+    .extra-label {
+      margin-bottom: 0.7rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #b0b0b0;
+    }
+    .extra ul { list-style: none; }
+    .extra li {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #1a1a1a;
+    }
+    .extra-fmt { font-weight: 400; font-style: italic; font-size: 0.88rem; color: #777; font-family: inherit; }
+
+    /* --- Ponto sem logo --- */
+    .ponto-logo-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 900;
+      font-size: 2.4rem;
+      color: #c9c5bd;
+    }
+
+    /* --- Próximo evento / fotos --- */
+    .evento-proximo { font-size: 1.05rem; line-height: 1.6; color: #444; }
+    .evento-sep { border: 0; border-top: 1px solid #e6e5e0; margin: 3rem 0; }
+    .evento-fotos { flex: 1 1 100%; margin-top: 0.6rem; }
+    .evento-fotos summary {
+      cursor: pointer;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #777;
+    }
+    .evento-fotos summary:hover { color: #1a1a1a; }
+    .evento-fotos-grid { column-count: 3; column-gap: 0.7rem; margin-top: 1.2rem; }
+    .evento-fotos-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 0.7rem;
+      border-radius: 4px;
+      break-inside: avoid;
+    }
+    @media (max-width: 600px) { .evento-fotos-grid { column-count: 2; } }
+
+    /* --- Símbolo da poesia --- */
+    .carica-simbolo img { object-fit: contain; padding: 8px; }
+
+    /* --- Construíram este número --- */
+    .edicao-credits {
+      margin-top: 2.4rem;
+      padding: 1.8rem 2rem 0.9rem;
+      background: #e3e2dd;
+    }
+    .credits-title {
+      margin-bottom: 1.2rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #8a8880;
+    }
+    .credits-roles { column-count: 3; column-gap: 2.4rem; }
+    @media (max-width: 600px) {
+      .edicao-credits { padding: 1.5rem 1.4rem 0.7rem; }
+      .credits-roles { column-count: 1; }
+      .edicao-extras { grid-template-columns: 1fr; }
+    }
+
+    .card-subtitle {
+      display: block;
+      margin-top: 0.15rem;
+      font-weight: 400;
+      font-size: 0.95rem;
+    }
   </style>
 </head>
 <body>
@@ -656,6 +834,7 @@
     <a href="#" class="brand">HABITAR</a>
     <nav class="site-nav">
       <a href="#nesta-edicao">Nesta edição</a>
+      <a href="#edicoes-anteriores">Edições anteriores</a>
       <a href="#pontos-de-recolha">Pontos de recolha</a>
       <a href="#contactos">Contactos</a>
       <a href="#ficha-tecnica">Ficha técnica</a>
@@ -668,7 +847,7 @@
       <img src="logo.png" alt="Habitar — um gesto de resistência">
     </div>
     <a class="scroll-cue" href="#nesta-edicao">
-      <span class="scroll-label">Número 01</span>
+      <span class="scroll-label">Número 02</span>
       <span class="scroll-arrow" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8.5l7 7 7-7"/></svg>
       </span>
@@ -679,92 +858,312 @@
 
   <section id="nesta-edicao" class="section">
     <h2>Nesta edição</h2>
-    <p class="edicao-meta">Nº 1 · Junho 2026</p>
+    <p class="edicao-meta">Nº 2 · Outubro 2026</p>
 
     <div class="edicao-grid">
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Vania.png" alt="Vânia Leite"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">As políticas urbanas podem melhorar a democracia local?</h3>
-          <p class="card-author">Vânia Leite</p>
-        </div>
-      </article>
+      <div class="edicao-col edicao-col-left">
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Lacerda.png" alt="Fernando Lacerda"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Os políticos são todos iguais?</h3>
+            <p class="card-author">Fernando Lacerda</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Diana.png" alt="Diana Gomes"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">Quem cuida da terra em Gaia, cuida do território</h3>
-          <p class="card-author">Diana Gomes</p>
-        </div>
-      </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Tiago Matos.png" alt="Tiago Matos"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Bem-vindos ao vosso bairro. Agora pertence a outro senhor.</h3>
+            <p class="card-author">Tiago Matos</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Ana.png" alt="Ana Castro"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">Eu sou deficiente. E tu, és capacitista?</h3>
-          <p class="card-author">Ana Castro</p>
-        </div>
-      </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Leonardo.png" alt="Leonardo Faria"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Na base da comunidade, a verdade</h3>
+            <p class="card-author">Leonardo Faria</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Lacerda.png" alt="Fernando Lacerda"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">Sim, é de política que falamos!</h3>
-          <p class="card-author">Fernando Lacerda</p>
-        </div>
-      </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Vania.png" alt="Vânia Leite"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">O sermão do veganismo</h3>
+            <p class="card-author">Vânia Leite</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Helena.png" alt="Helena Durães"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">Professora, posso ir buscar o casaco?</h3>
-          <p class="card-author">Helena Durães</p>
-        </div>
-      </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Antonio.png" alt="António José Santos"></div>
+          <div class="card-content">
+            <p class="card-section">Rubrica</p>
+            <h3 class="card-title">O Ouro Popular de Vila Nova de Gaia no século XIX</h3>
+            <p class="card-author">António José Santos</p>
+          </div>
+        </article>
+      </div>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
-        <div class="card-content">
-          <p class="card-section">Opinião</p>
-          <h3 class="card-title">NATO: Um futuro muito mau? E o passado?</h3>
-          <p class="card-author">Renato Soeiro</p>
-        </div>
-      </article>
+      <div class="edicao-col edicao-col-right">
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">A Inteligência Artificial e Vila Nova de Gaia: Uma experiência concreta</h3>
+            <p class="card-author">Renato Soeiro</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Ismael.png" alt="Ismael Calliano"></div>
-        <div class="card-content">
-          <p class="card-section">Poesia</p>
-          <h3 class="card-title">Frágil poesia inédita</h3>
-          <p class="card-author">Ismael Calliano</p>
-        </div>
-      </article>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/MJ Araujo.png" alt="Maria José Araújo"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">Brincar com as palavras, sonhar a liberdade</h3>
+            <p class="card-author">Maria José Araújo</p>
+          </div>
+        </article>
 
-      <article class="edicao-card">
-        <div class="carica"><img src="caricas/Antonio.png" alt="António José Santos"></div>
-        <div class="card-content">
-          <p class="card-section">Rubrica</p>
-          <h3 class="card-title">Costumes de um povo!</h3>
-          <p class="card-author">António José Santos</p>
+        <article class="edicao-card">
+          <div class="carica"><img src="caricas/Ruth Sampaio.png" alt="Ruth Sampaio"></div>
+          <div class="card-content">
+            <p class="card-section">Opinião</p>
+            <h3 class="card-title">O que tem o Estado Social a ver com a Saúde mental?</h3>
+            <p class="card-author">Ruth Sampaio</p>
+          </div>
+        </article>
+
+        <article class="edicao-card">
+          <div class="carica carica-simbolo"><img src="simbolos/falacias.png" alt="Desmonta-falácias"></div>
+          <div class="card-content">
+            <p class="card-section">Desmonta-falácias</p>
+            <h3 class="card-title">“O Estado tem de gerir as contas como uma família: não pode gastar mais do que ganha.”</h3>
+            <p class="card-author">Vânia Leite</p>
+          </div>
+        </article>
+        <article class="edicao-card">
+          <div class="carica carica-simbolo"><img src="simbolos/poesia.png" alt="Poesia"></div>
+          <div class="card-content">
+            <p class="card-section">Poesia</p>
+            <h3 class="card-title">Frágil poesia inédita</h3>
+            <p class="card-author">Ismael Calliano, Lunika Ozana, Antero Afonso</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  
+        <div class="edicao-extras">
+          <div class="extra"><p class="extra-label">Humor</p><ul><li>Lobisomem de Avintes recorda Adriano Correia de Oliveira</li><li>Solidariedade internacional Lattente <span class="extra-fmt">(banda desenhada)</span></li><li>Café Habitar <span class="extra-fmt">(cartoon)</span></li></ul></div>
+          <div class="extra"><p class="extra-label">Jogo</p><ul><li>Cercas políticas</li></ul></div>
         </div>
-      </article>
+        <div class="edicao-credits">
+          <p class="credits-title">Construíram este número</p>
+          <div class="credits-roles">
+        <div class="ficha-role">
+          <p class="role-label">Autoras e autores</p>
+          <ul class="role-names">
+            <li>António José Santos</li>
+            <li>Fernando Lacerda</li>
+            <li>Leonardo Faria</li>
+            <li>Maria José Araújo</li>
+            <li>Renato Soeiro</li>
+            <li>Ruth Sampaio</li>
+            <li>Tiago Matos</li>
+            <li>Vânia Leite</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Poesia</p>
+          <ul class="role-names">
+            <li>Antero Afonso</li>
+            <li>Ismael Calliano</li>
+            <li>Lunika Ozana</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Ilustrações</p>
+          <ul class="role-names">
+            <li>Carolina F.</li>
+            <li>Nuno Henriques</li>
+            <li>Renato Araújo Soeiro</li>
+          </ul>
+        </div>
+          </div>
+        </div>
+  </section>
+
+  <section id="edicoes-anteriores" class="section">
+    <h2>Edições anteriores</h2>
+
+    <div class="edicao-accordion">
+      <details class="edicao-accordion-item">
+        <summary>
+          <span class="edicao-accordion-titles">
+            <span class="edicao-accordion-num">Número 01</span>
+            <span class="edicao-accordion-date">Junho 2026</span>
+          </span>
+          <span class="edicao-accordion-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <div class="edicao-accordion-body">
+          <div class="edicao-grid">
+            <div class="edicao-col edicao-col-left">
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Vania.png" alt="Vânia Leite"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">As políticas urbanas podem melhorar a democracia local?</h3>
+                  <p class="card-author">Vânia Leite</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Ana.png" alt="Ana Castro"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Eu sou deficiente. E tu, és capacitista?</h3>
+                  <p class="card-author">Ana Castro</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Helena.png" alt="Helena Durães"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Professora, posso ir buscar o casaco?</h3>
+                  <p class="card-author">Helena Durães</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+          <div class="carica"><img src="reportagem/table-jam.png" alt="Table Jam, ilustração do artigo"></div>
+          <div class="card-content">
+            <p class="card-section">Investigação e reportagem</p>
+            <h3 class="card-title">Vou fazer Cajónes<span class="card-subtitle">Conversa com José Ribeiro</span></h3>
+            <p class="card-author">Por Renato Araújo Soeiro</p>
+          </div>
+        </article>
+        <article class="edicao-card">
+                <div class="carica carica-simbolo"><img src="simbolos/poesia.png" alt="Poesia"></div>
+                <div class="card-content">
+                  <p class="card-section">Poesia</p>
+                  <h3 class="card-title">Frágil poesia inédita</h3>
+                  <p class="card-author">Ismael Calliano, Hugo Araújo, Rui de Noronha Ozorio</p>
+                </div>
+              </article>
+            </div>
+
+            <div class="edicao-col edicao-col-right">
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Diana.png" alt="Diana Gomes"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Quem cuida da terra em Gaia, cuida do território</h3>
+                  <p class="card-author">Diana Gomes</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/Lacerda.png" alt="Fernando Lacerda"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">Sim, é de política que falamos!</h3>
+                  <p class="card-author">Fernando Lacerda</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+                <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
+                <div class="card-content">
+                  <p class="card-section">Opinião</p>
+                  <h3 class="card-title">NATO: Um futuro muito mau?<br>E o passado?</h3>
+                  <p class="card-author">Renato Soeiro</p>
+                </div>
+              </article>
+
+              <article class="edicao-card">
+          <div class="carica carica-simbolo"><img src="simbolos/falacias.png" alt="Desmonta-falácias"></div>
+          <div class="card-content">
+            <p class="card-section">Desmonta-falácias</p>
+            <h3 class="card-title">“Não precisamos de ciclovias porque ninguém as usa.”</h3>
+            <p class="card-author">Vânia Leite</p>
+          </div>
+        </article>
+        <article class="edicao-card">
+                <div class="carica"><img src="caricas/Antonio.png" alt="António José Santos"></div>
+                <div class="card-content">
+                  <p class="card-section">Rubrica</p>
+                  <h3 class="card-title">Costumes de um povo!</h3>
+                  <p class="card-author">António José Santos</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        
+        <div class="edicao-extras">
+          <div class="extra"><p class="extra-label">Humor</p><ul><li>Entrevista a Rei Ramiro</li><li>Voz do Povo</li><li>Horóscopo de Freguesias</li></ul></div>
+          <div class="extra"><p class="extra-label">Jogo</p><ul><li>Palavras-cruzadas anárquicas</li></ul></div>
+        </div>
+        <div class="edicao-credits">
+          <p class="credits-title">Construíram este número</p>
+          <div class="credits-roles">
+        <div class="ficha-role">
+          <p class="role-label">Autoras e autores</p>
+          <ul class="role-names">
+            <li>Ana Castro</li>
+            <li>António José Santos</li>
+            <li>Diana Gomes</li>
+            <li>Fernando Lacerda</li>
+            <li>Helena Durães</li>
+            <li>Renato Soeiro</li>
+            <li>Vânia Leite</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Poesia</p>
+          <ul class="role-names">
+            <li>Hugo Araújo</li>
+            <li>Ismael Calliano</li>
+            <li>Rui de Noronha Ozorio</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Ilustrações</p>
+          <ul class="role-names">
+            <li>João Maria</li>
+            <li>Luísa Magalhães</li>
+            <li>Nuno Henriques</li>
+            <li>Renato Araújo Soeiro</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Investigação e Reportagem</p>
+          <ul class="role-names">
+            <li>Luísa Magalhães</li>
+            <li>Nuno Henriques</li>
+            <li>Renato Araújo Soeiro</li>
+          </ul>
+        </div>
+          </div>
+        </div>
+        </div>
+      </details>
     </div>
   </section>
 
   <section id="pontos-de-recolha" class="section">
     <h2>Pontos de recolha</h2>
-    <p class="pontos-lead">Onde podes levantar a tua edição impressa do Habitar.</p>
+    <p class="pontos-lead">Onde podes levantar a tua edição impressa do Habitar, em Vila Nova de Gaia.</p>
     <div class="pontos-grid">
       <article class="ponto-card">
         <div class="ponto-logo"><img src="mafamood.jpg" alt="Mafa Mood"></div>
         <div class="ponto-info">
           <h3 class="ponto-name">Mafa Mood</h3>
-          <p class="ponto-place">R. do Telhado 261<br>Vila Nova de Gaia</p>
+          <p class="ponto-place">Rua do Telhado 261</p>
         </div>
       </article>
 
@@ -772,7 +1171,7 @@
         <div class="ponto-logo"><img src="biblioteca-gulpilhares.png" alt="Biblioteca Pública de Gulpilhares"></div>
         <div class="ponto-info">
           <h3 class="ponto-name">Biblioteca Pública de Gulpilhares</h3>
-          <p class="ponto-place">Auditório de Gulpilhares<br>R. Nuno Álvares, Gulpilhares</p>
+          <p class="ponto-place">Auditório de Gulpilhares<br>Rua Nuno Álvares</p>
         </div>
       </article>
 
@@ -780,7 +1179,7 @@
         <div class="ponto-logo"><img src="colmeia.png" alt="Colmeia"></div>
         <div class="ponto-info">
           <h3 class="ponto-name">Colmeia</h3>
-          <p class="ponto-place">R. Nuno Álvares 91<br>Gulpilhares</p>
+          <p class="ponto-place">Rua Nuno Álvares 91</p>
         </div>
       </article>
 
@@ -788,7 +1187,7 @@
         <div class="ponto-logo"><img src="new actualizando.png" alt="A(c)tualizando"></div>
         <div class="ponto-info">
           <h3 class="ponto-name">A(c)tualizando</h3>
-          <p class="ponto-place">R. Padre António Vieira 89<br>Vila Nova de Gaia</p>
+          <p class="ponto-place">Rua Padre António Vieira 89</p>
         </div>
       </article>
 
@@ -796,7 +1195,7 @@
         <div class="ponto-logo"><img src="dushca-ig-pfp.jpg" alt="Dushca"></div>
         <div class="ponto-info">
           <h3 class="ponto-name">Dushca</h3>
-          <p class="ponto-place">R. Clube Caçadores 207<br>Vila Nova de Gaia</p>
+          <p class="ponto-place">Rua Clube dos Caçadores 207</p>
         </div>
       </article>
 
@@ -812,7 +1211,15 @@
         <div class="ponto-logo"><img src="biblioteca-municipal-gaia.png" alt="Biblioteca Municipal de Gaia"></div>
         <div class="ponto-info">
           <h3 class="ponto-name">Biblioteca Municipal de Gaia</h3>
-          <p class="ponto-place">R. de Angola<br>Vila Nova de Gaia</p>
+          <p class="ponto-place">Rua de Angola<br>Pólos de Leitura de Afurada, Sandim e Avintes</p>
+        </div>
+      </article>
+
+      <article class="ponto-card">
+        <div class="ponto-logo ponto-logo-placeholder" aria-hidden="true"><span>C</span></div>
+        <div class="ponto-info">
+          <h3 class="ponto-name">Contratempo Livraria Multimedia</h3>
+          <p class="ponto-place">Rua Barão do Corvo 514</p>
         </div>
       </article>
     </div>
@@ -824,6 +1231,14 @@
       <div class="contacto-item">
         <p class="contacto-label">Editorial</p>
         <p class="contacto-value"><a href="mailto:editorial@jornalhabitar.pt">editorial@jornalhabitar.pt</a></p>
+      </div>
+      <div class="contacto-item">
+        <p class="contacto-label">Humor</p>
+        <p class="contacto-value"><a href="mailto:humor@jornalhabitar.pt">humor@jornalhabitar.pt</a></p>
+      </div>
+      <div class="contacto-item">
+        <p class="contacto-label">Poesia</p>
+        <p class="contacto-value"><a href="mailto:poesia@jornalhabitar.pt">poesia@jornalhabitar.pt</a></p>
       </div>
     </div>
   </section>
@@ -838,52 +1253,30 @@
             <li>Renato Araújo Soeiro</li>
           </ul>
         </div>
-
         <div class="ficha-role">
-          <p class="role-label">Design</p>
-          <ul class="role-names">
-            <li>Francisca Guimarães</li>
-          </ul>
-        </div>
-
-        <div class="ficha-role">
-          <p class="role-label">Logo e Friso</p>
-          <ul class="role-names">
-            <li>Luísa Matos</li>
-          </ul>
-        </div>
-
-        <div class="ficha-role">
-          <p class="role-label">Ilustrações</p>
-          <ul class="role-names">
-            <li>João Maria</li>
-            <li>Luísa Magalhães</li>
-            <li>Nuno Henriques</li>
-            <li>Renato Araújo Soeiro</li>
-          </ul>
-        </div>
-
-        <div class="ficha-role">
-          <p class="role-label">Edição e Revisão</p>
+          <p class="role-label">Equipa editorial</p>
           <ul class="role-names">
             <li>Ismael Calliano</li>
             <li>Mariana Costa</li>
-            <li>Matilde Vilhena</li>
             <li>Nuno Henriques</li>
             <li>Rafael Tormenta</li>
             <li>Vânia Leite</li>
           </ul>
         </div>
-
         <div class="ficha-role">
-          <p class="role-label">Investigação e Reportagem</p>
+          <p class="role-label">Equipa de design</p>
           <ul class="role-names">
-            <li>Luísa Magalhães</li>
-            <li>Nuno Henriques</li>
+            <li>Francisca Guimarães</li>
+            <li>Luísa Matos</li>
             <li>Renato Araújo Soeiro</li>
           </ul>
         </div>
-
+        <div class="ficha-role">
+          <p class="role-label">Coordenação de poesia</p>
+          <ul class="role-names">
+            <li>Ismael Calliano</li>
+          </ul>
+        </div>
         <div class="ficha-role">
           <p class="role-label">Humor</p>
           <ul class="role-names">
@@ -892,11 +1285,16 @@
             <li>Renato Araújo Soeiro</li>
           </ul>
         </div>
-
         <div class="ficha-role">
-          <p class="role-label">Poesia</p>
+          <p class="role-label">Logo e friso</p>
           <ul class="role-names">
-            <li>Ismael Calliano</li>
+            <li>Luísa Matos</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Site e fotos</p>
+          <ul class="role-names">
+            <li>Leonardo Faria</li>
           </ul>
         </div>
       </div>
@@ -912,11 +1310,51 @@
 
     <div class="eventos-block">
       <p class="eventos-subtitle">Próximos</p>
-      <p class="eventos-empty">Sem eventos agendados de momento. Volta em breve.</p>
+      <p class="evento-proximo"><strong>Número 3</strong> · previsto para dezembro de 2026.<br>Data e local da apresentação a anunciar em breve.</p>
     </div>
 
     <div class="eventos-block">
       <p class="eventos-subtitle">Passados</p>
+
+      <article class="evento">
+        <div class="evento-poster">
+          <img class="zoomable" src="eventos/convite-02.jpg" alt="Convite para a apresentação do número 2 do Habitar">
+        </div>
+        <div class="evento-meta">
+          <p class="evento-kicker">Apresentação do número 2</p>
+          <h3 class="evento-name">Habitar nº 2 em Gulpilhares</h3>
+          <p class="evento-tagline">Às 16h, concerto e apresentação do álbum «Ecos da Palavra», pelo Coro de Câmara da EPM – Gondomar.</p>
+          <p class="evento-when">18 de outubro de 2026 · 15h30</p>
+          <p class="evento-where">Auditório de Gulpilhares · Vila Nova de Gaia</p>
+        </div>
+        <details class="evento-fotos">
+          <summary>Ver as fotos (19)</summary>
+          <div class="evento-fotos-grid">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-01.jpg" data-full="eventos/apresentacao-2/foto-01.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-02.jpg" data-full="eventos/apresentacao-2/foto-02.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-03.jpg" data-full="eventos/apresentacao-2/foto-03.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-04.jpg" data-full="eventos/apresentacao-2/foto-04.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-05.jpg" data-full="eventos/apresentacao-2/foto-05.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-06.jpg" data-full="eventos/apresentacao-2/foto-06.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-07.jpg" data-full="eventos/apresentacao-2/foto-07.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-08.jpg" data-full="eventos/apresentacao-2/foto-08.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-09.jpg" data-full="eventos/apresentacao-2/foto-09.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-10.jpg" data-full="eventos/apresentacao-2/foto-10.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-11.jpg" data-full="eventos/apresentacao-2/foto-11.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-12.jpg" data-full="eventos/apresentacao-2/foto-12.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-13.jpg" data-full="eventos/apresentacao-2/foto-13.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-14.jpg" data-full="eventos/apresentacao-2/foto-14.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-15.jpg" data-full="eventos/apresentacao-2/foto-15.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-16.jpg" data-full="eventos/apresentacao-2/foto-16.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-17.jpg" data-full="eventos/apresentacao-2/foto-17.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-18.jpg" data-full="eventos/apresentacao-2/foto-18.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+            <img class="zoomable" loading="lazy" src="eventos/apresentacao-2/t/foto-19.jpg" data-full="eventos/apresentacao-2/foto-19.jpg" alt="Apresentação do número 2, Auditório de Gulpilhares">
+          </div>
+        </details>
+      </article>
+
+      <hr class="evento-sep">
+
       <article class="evento">
         <div class="evento-poster">
           <img class="zoomable" src="eventos/lancamento.jpg" alt="Cartaz do lançamento do Habitar">
@@ -999,7 +1437,7 @@
 
       document.querySelectorAll('.zoomable').forEach(function (img) {
         img.addEventListener('click', function () {
-          open(img.currentSrc || img.src, img.alt);
+          open(img.dataset.full || img.currentSrc || img.src, img.alt);
         });
       });
 
