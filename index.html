@@ -738,14 +738,14 @@
 
     /* --- Humor e jogo (nesta edição) --- */
     .edicao-extras {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
       gap: 1.6rem 3.4rem;
       margin-top: 3rem;
       padding-top: 2rem;
       border-top: 1px solid #e6e5e0;
     }
-    .extra { flex: 1 1 260px; }
+    .extra:last-child { text-align: right; }
     .extra-label {
       margin-bottom: 0.7rem;
       font-size: 0.62rem;
@@ -797,6 +797,29 @@
       break-inside: avoid;
     }
     @media (max-width: 600px) { .evento-fotos-grid { column-count: 2; } }
+
+    /* --- Símbolo da poesia --- */
+    .carica-simbolo img { object-fit: contain; padding: 8px; }
+
+    /* --- Construíram este número --- */
+    .edicao-credits {
+      margin-top: 2.4rem;
+      padding: 1.8rem 2rem 0.9rem;
+      background: #e3e2dd;
+    }
+    .credits-title {
+      margin-bottom: 1.2rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #8a8880;
+    }
+    .credits-roles { column-count: 3; column-gap: 2.4rem; }
+    @media (max-width: 600px) {
+      .edicao-credits { padding: 1.5rem 1.4rem 0.7rem; }
+      .credits-roles { column-count: 1; }
+      .edicao-extras { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -907,7 +930,7 @@
         </article>
 
         <article class="edicao-card">
-          <div class="carica"><img src="caricas/Ismael.png" alt="Ismael Calliano"></div>
+          <div class="carica carica-simbolo"><img src="simbolos/poesia.png" alt="Poesia"></div>
           <div class="card-content">
             <p class="card-section">Poesia</p>
             <h3 class="card-title">Frágil poesia inédita</h3>
@@ -920,6 +943,27 @@
         <div class="edicao-extras">
           <div class="extra"><p class="extra-label">Humor</p><ul><li>Lobisomem de Avintes recorda Adriano Correia de Oliveira</li><li>Solidariedade internacional Lattente <span class="extra-fmt">(banda desenhada)</span></li><li>Café Habitar <span class="extra-fmt">(cartoon)</span></li></ul></div>
           <div class="extra"><p class="extra-label">Jogo</p><ul><li>Cercas políticas</li></ul></div>
+        </div>
+        <div class="edicao-credits">
+          <p class="credits-title">Construíram este número</p>
+          <div class="credits-roles">
+        <div class="ficha-role">
+          <p class="role-label">Ilustrações</p>
+          <ul class="role-names">
+            <li>Carolina F.</li>
+            <li>Nuno Henriques</li>
+            <li>Renato Araújo Soeiro</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Humor</p>
+          <ul class="role-names">
+            <li>Guilherme Magalhães</li>
+            <li>Leonardo Faria</li>
+            <li>Renato Araújo Soeiro</li>
+          </ul>
+        </div>
+          </div>
         </div>
   </section>
 
@@ -968,7 +1012,7 @@
               </article>
 
               <article class="edicao-card">
-                <div class="carica"><img src="caricas/Ismael.png" alt="Ismael Calliano"></div>
+                <div class="carica carica-simbolo"><img src="simbolos/poesia.png" alt="Poesia"></div>
                 <div class="card-content">
                   <p class="card-section">Poesia</p>
                   <h3 class="card-title">Frágil poesia inédita</h3>
@@ -1000,7 +1044,7 @@
                 <div class="carica"><img src="caricas/RenatoGrande.png" alt="Renato Soeiro"></div>
                 <div class="card-content">
                   <p class="card-section">Opinião</p>
-                  <h3 class="card-title">NATO: Um futuro muito mau? E o passado?</h3>
+                  <h3 class="card-title">NATO: Um futuro muito mau?<br>E o passado?</h3>
                   <p class="card-author">Renato Soeiro</p>
                 </div>
               </article>
@@ -1019,6 +1063,36 @@
         <div class="edicao-extras">
           <div class="extra"><p class="extra-label">Humor</p><ul><li>Entrevista a Rei Ramiro</li><li>Voz do Povo</li><li>Horóscopo de Freguesias</li></ul></div>
           <div class="extra"><p class="extra-label">Jogo</p><ul><li>Palavras-cruzadas anárquicas</li></ul></div>
+        </div>
+        <div class="edicao-credits">
+          <p class="credits-title">Construíram este número</p>
+          <div class="credits-roles">
+        <div class="ficha-role">
+          <p class="role-label">Ilustrações</p>
+          <ul class="role-names">
+            <li>João Maria</li>
+            <li>Luísa Magalhães</li>
+            <li>Nuno Henriques</li>
+            <li>Renato Araújo Soeiro</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Investigação e Reportagem</p>
+          <ul class="role-names">
+            <li>Luísa Magalhães</li>
+            <li>Nuno Henriques</li>
+            <li>Renato Araújo Soeiro</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Humor</p>
+          <ul class="role-names">
+            <li>Guilherme Magalhães</li>
+            <li>Leonardo Faria</li>
+            <li>Renato Araújo Soeiro</li>
+          </ul>
+        </div>
+          </div>
         </div>
         </div>
       </details>
@@ -1123,33 +1197,8 @@
             <li>Renato Araújo Soeiro</li>
           </ul>
         </div>
-
         <div class="ficha-role">
-          <p class="role-label">Design</p>
-          <ul class="role-names">
-            <li>Francisca Guimarães</li>
-          </ul>
-        </div>
-
-        <div class="ficha-role">
-          <p class="role-label">Logo e Friso</p>
-          <ul class="role-names">
-            <li>Luísa Matos</li>
-          </ul>
-        </div>
-
-        <div class="ficha-role">
-          <p class="role-label">Ilustrações</p>
-          <ul class="role-names">
-            <li>João Maria</li>
-            <li>Luísa Magalhães</li>
-            <li>Nuno Henriques</li>
-            <li>Renato Araújo Soeiro</li>
-          </ul>
-        </div>
-
-        <div class="ficha-role">
-          <p class="role-label">Edição e Revisão</p>
+          <p class="role-label">Equipa editorial</p>
           <ul class="role-names">
             <li>Ismael Calliano</li>
             <li>Mariana Costa</li>
@@ -1159,29 +1208,30 @@
             <li>Vânia Leite</li>
           </ul>
         </div>
-
         <div class="ficha-role">
-          <p class="role-label">Investigação e Reportagem</p>
+          <p class="role-label">Equipa de design</p>
           <ul class="role-names">
-            <li>Luísa Magalhães</li>
-            <li>Nuno Henriques</li>
+            <li>Francisca Guimarães</li>
+            <li>Luísa Matos</li>
             <li>Renato Araújo Soeiro</li>
           </ul>
         </div>
-
         <div class="ficha-role">
-          <p class="role-label">Humor</p>
-          <ul class="role-names">
-            <li>Guilherme Magalhães</li>
-            <li>Leonardo Faria</li>
-            <li>Renato Araújo Soeiro</li>
-          </ul>
-        </div>
-
-        <div class="ficha-role">
-          <p class="role-label">Poesia</p>
+          <p class="role-label">Coordenação de poesia</p>
           <ul class="role-names">
             <li>Ismael Calliano</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Logo e friso</p>
+          <ul class="role-names">
+            <li>Luísa Matos</li>
+          </ul>
+        </div>
+        <div class="ficha-role">
+          <p class="role-label">Site</p>
+          <ul class="role-names">
+            <li>Leonardo Faria</li>
           </ul>
         </div>
       </div>
